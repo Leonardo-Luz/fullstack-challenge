@@ -32,7 +32,6 @@ class Database{
         })
         .catch((err) => {
             console.error('Unable to connect to database!', err);
-                    
         })
     }
 }

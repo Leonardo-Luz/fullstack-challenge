@@ -1,7 +1,7 @@
 import { Request , Response, json } from "express"
 import { employeeRequestBody } from "../types/employee";
 
-import db from "../database/config";
+import db from "../config";
 
 export const getEmployees = async ( req: Request, res: Response ): Promise<Response> =>
 {
