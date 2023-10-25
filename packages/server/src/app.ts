@@ -1,8 +1,9 @@
 import express, { Application } from "express";
+import http from 'http';
+
 import { healthRouter , employeeRouter , employeetypeRouter } from "./routes";
 import { errorHandler, logger, rules } from "./middlewares";
-import http from 'http';
-// import database from "./config";
+import database from "./config";
 
 class App {
     public app: Application;
@@ -19,6 +20,8 @@ class App {
         // this.app.use(cookieParser());
         // this.app.use(bodyParser.json());
 
+        this.databaseSync();
+
         this.middlewares();
 
         this.app.use(rules);
@@ -28,10 +31,10 @@ class App {
         this.app.use(errorHandler);
     }
 
-    // protected databaseSync():void
-    // {
-    //     database.Pool?.sync;
-    // }
+    protected databaseSync():void
+    {
+        database.sequelize?.sync();
+    }
 
     protected middlewares(): void
     {
