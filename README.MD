@@ -2,6 +2,9 @@
 
 ## Framework
 
+/ typeORM ?
+    create db models
+
 dotenv
     load envirment variables
 
