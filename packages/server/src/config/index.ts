@@ -1,9 +1,10 @@
 import { Pool } from "pg";
+import { Sequelize } from "sequelize";
 import * as dotenv from "dotenv";
 dotenv.config();
 
 class Database{
-    public Pool: Pool | undefined;
+    public sequelize: Sequelize | undefined;
 
     private POSTGRES_DB = process.env.POSTGRES_DB as string;
     private POSTGRES_HOST = process.env.POSTGRES_HOST as string;
@@ -18,15 +19,16 @@ class Database{
 
     private async connectToPostegresSql()
     {
-        this.Pool = new Pool({
+        this.sequelize = new Sequelize({
            database: this.POSTGRES_DB,
-           user: this.POSTGRES_USER,
+           username: this.POSTGRES_USER,
            password: this.POSTGRES_PASSWORD,
            host: this.POSTGRES_HOST,
-           port: this.POSTGRES_PORT,           
+           port: this.POSTGRES_PORT,
+           dialect: 'postgres'
         });
 
-        await this.Pool.connect()
+        await this.sequelize.authenticate()
         .then(() => {
             console.log('database connected!');      
         })
