@@ -1,7 +1,8 @@
 import express, { Application } from "express";
 import { healthRouter , employeeRouter , employeetypeRouter } from "./routes";
-import { errorHandler, logger } from "./middlewares";
-// import database from "./database/config";
+import { errorHandler, logger, rules } from "./middlewares";
+import http from 'http';
+// import database from "./config";
 
 class App {
     public app: Application;
@@ -19,7 +20,11 @@ class App {
         // this.app.use(bodyParser.json());
 
         this.middlewares();
+
+        this.app.use(rules);
+
         this.routes();
+
         this.app.use(errorHandler);
     }
 
@@ -30,6 +35,7 @@ class App {
 
     protected middlewares(): void
     {
+        this.app.use(express.urlencoded({ extended: true }));
         this.app.use(express.json());
         
         this.app.use(logger);        
@@ -46,9 +52,9 @@ class App {
 const app = new App();
 const port: number = 3000;
 
-// const server = http.createServer(this.app);
+const server = http.createServer(app.app);
 
-app.app.listen(port, () =>
+server.listen(port, () =>
 {
     console.log(`Listening at http://localhost:${port}`);
 }); 
