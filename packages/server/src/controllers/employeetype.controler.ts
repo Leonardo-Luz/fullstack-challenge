@@ -1,15 +1,14 @@
-import { Request , Response, json } from "express"
+import { Request , Response } from "express"
 import { employeeTypeRequestBody } from "../types/employeetype";
-
-import db from "../config";
-
+import { employeetypeModel } from "../models/employeetype";
+ 
 export const getEmployeeTypes = async ( req: Request, res: Response ): Promise<Response> =>
 {
     try
     {
-        const response = await db.Pool?.query('SELECT * FROM employeetype');
+        const response = await employeetypeModel.findAll();
         
-        return res.status(200).json(response?.rows);
+        return res.status(200).json(response);
     }
     catch (e)
     {
@@ -26,9 +25,12 @@ export const getEmployeeTypeById  = async ( req: Request, res: Response ): Promi
     {
         const id = parseInt(req.params.id);
 
-        const response = await db.Pool?.query(`SELECT * FROM employeetype WHERE employeetypeid = ${id}`);
+        const response = await employeetypeModel.findByPk(id);
         
-        return res.status(200).json(response?.rows);
+        if(response != null)
+            return res.status(200).json(response);
+        else
+            return res.status(404).json('Not found');
     }
     catch (e)
     {
@@ -42,16 +44,16 @@ export const createEmployeeType  = async ( req: Request<{}, any, employeeTypeReq
 {
     const { employeetypeid , description , situation } = req.body;
 
-    const response  = db.Pool?.query
-    (
-        'INSERT INTO employeetype (employeetypeid, description, situation) VALUES ($1, $2, $3)',
-        [employeetypeid , description , situation]
-    );
+    await employeetypeModel.create({
+        employeetypeid: employeetypeid,
+        description: description,
+        situation: situation,
+    });
 
     return res.status(200).json({
         message: 'Employee Type successfully created',
         body: { 
-            employeetype: {
+            employeetype: { 
                 employeetypeid,
                 description,
                 situation 
@@ -67,9 +69,16 @@ export const deleteEmployeeType  = async ( req: Request, res: Response ): Promis
     {
         const id = parseInt(req.params.id);
 
-        await db.Pool?.query(`DELETE FROM employeetype WHERE employeetypeid = ${id}`);
-        
-        return res.status(200).json(`User ${id} successfully deleted`);
+        const response = await employeetypeModel.findByPk(id);
+
+        if(response != null)
+        {
+            response.destroy();
+            
+            return res.status(200).json(`User ${id} successfully deleted`);
+        }
+
+        return res.status(404).json('Not found');
     }
     catch (e)
     {
@@ -87,13 +96,19 @@ export const updateEmployeeType  = async ( req: Request<{ id:string }, any, empl
 
         const { description , situation } = req.body;
 
-        await db.Pool?.query
-        (
-            'UPDATE employeetype SET description = $1, situation = $2 WHERE employeetypeid = $3',
-            [description , situation , id]
-        );
-        
-        return res.status(200).json(`Employee Type ${id} successfully updated`);
+        const response = await employeetypeModel.findByPk(id);
+
+        if(response != null)
+        {
+            response.description = description;
+            response.situation = situation;
+
+            await response.save();
+            
+            return res.status(200).json(`Employee Type ${id} successfully updated`);
+        }
+
+        return res.status(404).json('Not found');        
     }
     catch (e)
     {
