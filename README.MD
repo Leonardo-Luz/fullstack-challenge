@@ -2,8 +2,8 @@
 
 ## Framework
 
-/ typeORM ?
-    create db models
+/ Sequelize ?
+    create db models and CRUD
 
 dotenv
     load envirment variables
