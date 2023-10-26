@@ -17,7 +17,7 @@ typescript -D
     tipagem 
     
 --
-Express
+Express // Mudar para NextJS
     framework
     create rest api 
 
