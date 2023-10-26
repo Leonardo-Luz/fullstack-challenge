@@ -53,7 +53,7 @@ class App {
 }
 
 const app = new App();
-const port: number = 3000;
+const port: number = 3001;
 
 const server = http.createServer(app.app);
 
