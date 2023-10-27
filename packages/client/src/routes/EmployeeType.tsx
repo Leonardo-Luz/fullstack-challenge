@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { employeeTypeProps } from "../types/employeetype";
-import EmployeeTypeSearch from "../components/employeetype/EmployeeTypeSearch";
+import EmployeeTypeSearch from "../components/database/DatabaseSearch";
 import EmployeeTypeRow from "../components/employeetype/EmployeeTypeRow";
+import './employeeTypeStyle.css';
+
+import { useParams } from 'react-router-dom';
 
 const Employeetype = () =>
 {
@@ -9,10 +12,11 @@ const Employeetype = () =>
 
     const [ employeeTypes , setEmployeeTypes ] = useState<employeeTypeProps[] | null>(null);
 
+    const { id } = useParams();
 
     const getEmployeeTypeById = async ( id: number ): Promise<void> =>
     {
-        await fetch(`http://localhost:3001/employeetype/${id}`)
+        await fetch(`http://10.0.0.239:3001/employeetype/${id}`)
         .then( ( res ) => 
         {
             res.json()
@@ -24,7 +28,7 @@ const Employeetype = () =>
 
     const getEmployeeTypes = async (): Promise<void> =>
     {
-        await fetch(`http://localhost:3001/employeetype`)
+        await fetch(`http://10.0.0.239:3001/employeetype`)
         .then( ( res ) => 
         {
             res.json()
@@ -37,10 +41,12 @@ const Employeetype = () =>
     useEffect( () => { getEmployeeTypes() }, []);
 
     return(
-        <div>
-            <EmployeeTypeSearch getEmployeeTypeById={getEmployeeTypeById}/>
-            {employeeTypes && <EmployeeTypeRow employeeTypes={employeeTypes} />}
-            {employeetype && <p>{employeetype.description}</p>}
+        <div className="screen">
+            <EmployeeTypeSearch database="/employeetype/"/>
+            {
+                (employeeTypes && id && <EmployeeTypeRow employeeTypes={employeeTypes} filteredId={parseInt(id)}/>) ||
+                (employeeTypes && <EmployeeTypeRow employeeTypes={employeeTypes} />)
+            }
         </div>
     )
 }

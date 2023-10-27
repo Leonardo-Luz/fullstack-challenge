@@ -1,0 +1,33 @@
+#navbar
+{   
+    margin-top: 20px;
+    
+    position: fixed;
+
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+}
+
+#inside
+{
+    display: flex;
+    flex-direction: row;
+    
+    justify-content: space-evenly;
+    align-items: center;
+    
+    border: 2px solid black;
+    border-radius: 8px;
+
+    box-shadow: 6px 6px 1px black;
+    
+    padding: 12px;
+    width: 70%;
+
+    background-color: rgb(42, 231, 231);    
+}
