@@ -2,7 +2,10 @@
 
 ## Framework
 
-/ Sequelize ?
+file-loader 
+    used to import png or any type into ts scripts
+
+Sequelize
     create db models and CRUD
 
 dotenv
@@ -26,3 +29,21 @@ nodemon
 
 ts-node
     Executa a aplicação em ts ao invez de buildar para js e entao executar
+
+
+timestamp update
+CREATE OR REPLACE FUNCTION trigger_set_timestamp()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER set_timestamp
+BEFORE UPDATE ON todos
+FOR EACH ROW
+EXECUTE PROCEDURE trigger_set_timestamp();
+
+credits
+<a href="https://www.flaticon.com/free-icons/trash" title="trash icons">Trash icons created by Freepik - Flaticon</a>
