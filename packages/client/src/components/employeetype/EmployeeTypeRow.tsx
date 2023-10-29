@@ -1,14 +1,21 @@
 import { employeeTypeProps } from "../../types/employeetype";
-import './table.css';
+import { useNavigate } from 'react-router-dom'
+import '../../styles/table.css';
+
+import delete_ico from '../../images/delete.png';
+import edit_ico from '../../images/edit.png'
 
 type EmployeeTypeRowProps = {
     employeeTypes: employeeTypeProps[] | null;
-    filteredId?: number;
+    filtered?: number | string;
 };
 
-const EmployeeTypeRow = ( { employeeTypes , filteredId }: EmployeeTypeRowProps) =>
+
+const EmployeeTypeRow = ( { employeeTypes , filtered }: EmployeeTypeRowProps) =>
 {
     const employeeTypes_ = employeeTypes;
+
+    const navigate = useNavigate();
 
     let notfound = false;
 
@@ -17,28 +24,57 @@ const EmployeeTypeRow = ( { employeeTypes , filteredId }: EmployeeTypeRowProps) 
         if(employeeTypes_)
         for(let i = 0; i < employeeTypes_.length; i++)
         {
-            if(employeeTypes_[i].employeetypeid === filteredId)            
+            if(employeeTypes_[i].employeetypeid.toString() === filtered || employeeTypes_[i].description === filtered)            
                 return true;
         }
 
         return false;
     }
 
+    const deleteEmployeeType = async (id :number) =>
+    {
+        if(window.confirm(`Are you sure you want to delete the employeetype with id ${id} and his employees ?`))
+        {
+            await fetch(`http://10.0.0.239:3001/employeetype/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+
+            navigate(0);
+        }
+    }    
+
     return(
         <table>
-            <thead><tr><td className="id">id</td><td className="desc">description</td><td className="sit">situation</td></tr></thead>
+            <thead><tr><td className="id">id</td><td className="desc">description</td><td className="sit">situation</td><td className="sit">update</td><td className="sit">delete</td></tr></thead>
             <tbody>
-            {employeeTypes_ && employeeTypes_.map((data) => {
-                if(filteredId === undefined)
-                    return <tr><td className="id">{data.employeetypeid}</td><td className="desc">{data.description}</td><td className="sit">{(data.situation && "Ativo")||(!data.situation && "Desligado")}</td></tr>
+            {(employeeTypes_?.length === 0 && <tr><td className="desc">No data</td></tr>) || 
+             (employeeTypes_ && employeeTypes_.map((data) => {
+                const row = 
+                <tr>
+                    {/* criar td como objeto ts separado */}
+                    <td className="id" onClick={(e)=> {navigator.clipboard.writeText(data.employeetypeid.toString()); console.log('data copied')}}>{data.employeetypeid}</td>
+                    <td className="desc" onClick={(e)=> {navigator.clipboard.writeText(data.description); console.log('data copied')}}>{data.description}</td>
+                    <td className="sit" onClick={(e)=> {navigator.clipboard.writeText(data.situation.toString()); console.log('data copied')}}>{(data.situation && "Ativo")||(!data.situation && "Desligado")}</td>
+                    <td className="del" onClick={(e)=> {navigate(`/employeetypeupdate/${data.employeetypeid}`)}}><img className="ico" src={edit_ico} alt="Edit Icon" ></img></td>
+                    <td className="del" onClick={(e)=> {deleteEmployeeType(data.employeetypeid)}}><img className="ico" src={delete_ico} alt="Delete Icon" ></img></td>
+                </tr>
+                
+                if(filtered === undefined)
+                    return row
                 else if(!FilterCheck() && !notfound)
                 {
                     notfound = true;
-                    return <tr><td className="id"></td><td className="desc">not found</td><td className="sit"></td></tr>
+                    return <tr><td className="desc">not found</td></tr>
                 }
-                else if(filteredId === data.employeetypeid)
-                    return <tr><td className="id">{data.employeetypeid}</td><td className="desc">{data.description}</td><td className="sit">{(data.situation && "Ativo")||(!data.situation && "Desligado")}</td></tr>
-            })}
+                else if(filtered === data.employeetypeid.toString())
+                    return row
+                else if(filtered === data.description)
+                    return row
+                else return null
+            }))}
             </tbody>
         </table>
     )
