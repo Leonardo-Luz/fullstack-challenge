@@ -1,13 +1,10 @@
-import { ChangeEvent, useState } from "react";
-import { employeeTypeProps } from "../../types/employeetype";
-import './table.css';
+import { useState } from "react";
+import '../styles/table.css';
+import '../styles/form.css';
 
 import { useNavigate } from 'react-router-dom';
 
-type EmployeeTypeRowProps = {
-};
-
-const EmployeeTypeForm = ( { }: EmployeeTypeRowProps) =>
+const EmployeeTypeForm = () =>
 {
     const navigate = useNavigate();
 
@@ -23,11 +20,11 @@ const EmployeeTypeForm = ( { }: EmployeeTypeRowProps) =>
         const parameter = e.currentTarget.id as 'employeetypeid' | 'description' | 'situation';
         console.log(parameter);
 
-        if(parameter == 'employeetypeid')
+        if(parameter === 'employeetypeid')
             newEmployeeType[parameter] = parseInt(e.currentTarget.value);
-        else if(parameter == 'description')
+        else if(parameter === 'description')
             newEmployeeType[parameter] = e.currentTarget.value;
-        else if(parameter == 'situation')
+        else if(parameter === 'situation')
             newEmployeeType[parameter] = e.currentTarget.checked;
 
 
@@ -38,26 +35,30 @@ const EmployeeTypeForm = ( { }: EmployeeTypeRowProps) =>
     {
         e.preventDefault();
 
-        const result = await fetch('http://10.0.0.239:3001/employeetype', {
+        await fetch('http://10.0.0.239:3001/employeetype', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(employeetype)
+            body: JSON.stringify(employeetype)            
         })
 
-        const resultJson = await result.json();
-
-        navigate('/');
+        navigate('/employeetype');
     }
 
     return(
         <div>
-            <form>
-                <input type="number" onChange={(e)=>handleForm(e)} id="employeetypeid" value={employeetype.employeetypeid}/>
-                <input type="text" onChange={(e)=>handleForm(e)} id="description" value={employeetype.description}/>
-                <input type="checkbox" onChange={(e)=>handleForm(e)} id="situation" value={employeetype.situation.toString()}/>
-            
+            <form id="form">
+
+                <h3>Employee Type Registration</h3>
+
+                <hr/>
+                <label><p>ID:</p><input className="field" placeholder="0" type="number" onChange={(e)=>handleForm(e)} id="employeetypeid" value={employeetype.employeetypeid || undefined}/></label>
+                <label><p>Descrição:</p><input placeholder="admin..." className="field" type="text" onChange={(e)=>handleForm(e)} id="description" value={employeetype.description}/></label>
+                <label><p>Situação:</p><input defaultChecked className="check" type="checkbox" onChange={(e)=>handleForm(e)} id="situation" value={employeetype.situation.toString()}/></label>
+
+                <hr/>
+
                 <button onClick={(e) => createEmployeeType(e)}>Submit</button>
             </form>
         </div>

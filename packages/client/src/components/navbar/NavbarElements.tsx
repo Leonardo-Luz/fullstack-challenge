@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom'
+import logo from '../../images/logo512.png'
 import './navbarElements.css';
 
 type NavbarLinkProps = {
@@ -7,11 +8,12 @@ type NavbarLinkProps = {
     link: string
 };
 
-const NavbarLink = ( { children , link }: NavbarLinkProps ) =>
+export const NavbarLink = ( { children , link }: NavbarLinkProps ) =>
 {
-    return(
-        <div><Link to={link} >{children}</Link></div>
-    )
+    return <Link className="navbar-link" to={link}>{children}</Link>
 }
 
-export default NavbarLink;
+export const NavbarLogo = () =>
+{
+    return <Link to='/'><img className='navbar-logo' src={logo} alt="logo do site"/></Link>
+}

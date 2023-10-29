@@ -7,7 +7,10 @@ import Home from './routes/Home';
 import Employeetype from './routes/EmployeeType';
 import Error from './routes/Error';
 import Employee from './routes/Employee';
-import EmployeeTypeForm from './components/employeetype/EmployeeTypeForm';
+import EmployeeTypeForm from './routes/EmployeeTypeForm';
+import EmployeeForm from './routes/EmployeeForm';
+import EmployeeTypeUpdate from './routes/EmployeeTypeUpdate';
+import EmployeeUpdate from './routes/EmployeeUpdate';
 
 const router = createBrowserRouter([
   {
@@ -32,14 +35,25 @@ const router = createBrowserRouter([
         element: <EmployeeTypeForm />
       },      
       {
+        path: '/employeetypeupdate/:id',
+        element: <EmployeeTypeUpdate />
+      },      
+      {
         path: '/employee',
         element: <Employee />
       },
       {
         path: '/employee/:id',
         element: <Employee />
+      },
+      {
+        path: '/employeeform/',
+        element: <EmployeeForm />
+      },
+      {
+        path: '/employeeupdate/:id',
+        element: <EmployeeUpdate />
       }
-
     ]
   }
 ]);

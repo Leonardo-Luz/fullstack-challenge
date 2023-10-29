@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from 'react-router-dom';
+import './search.css'
 
 type databaseSearchProps = {
     database: string;
@@ -7,13 +8,13 @@ type databaseSearchProps = {
 
 const DatabaseSearch = ({ database }: databaseSearchProps) =>
 {
-    const [ id , setId ] = useState(Number);
+    const [ id , setId ] = useState(String);
 
     return(
-        <div>
+        <div className="search">
             <label>
-                <input type="number" onChange={(e) => (setId(parseInt(e.target.value)))}/>
-                <Link to={database + id}>Search</Link>
+                <input className="search-field" type="text" onChange={(e) => (setId(e.target.value))}/>
+                <Link className="search-button" to={database + id}>Search</Link>
             </label>
         </div>
     )
