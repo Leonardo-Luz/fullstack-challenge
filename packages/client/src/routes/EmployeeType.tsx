@@ -8,23 +8,9 @@ import { useParams } from 'react-router-dom';
 
 const Employeetype = () =>
 {
-    const [ employeetype , setEmployeetype ] = useState<employeeTypeProps | null>(null);
-
     const [ employeeTypes , setEmployeeTypes ] = useState<employeeTypeProps[] | null>(null);
 
     const { id } = useParams();
-
-    const getEmployeeTypeById = async ( id: number ): Promise<void> =>
-    {
-        await fetch(`http://10.0.0.239:3001/employeetype/${id}`)
-        .then( ( res ) => 
-        {
-            res.json()
-            .then((data) => {
-                setEmployeetype(data);
-            })
-        })
-    }    
 
     const getEmployeeTypes = async (): Promise<void> =>
     {
@@ -41,12 +27,16 @@ const Employeetype = () =>
     useEffect( () => { getEmployeeTypes() }, []);
 
     return(
-        <div className="screen">
-            <EmployeeTypeSearch database="/employeetype/"/>
-            {
-                (employeeTypes && id && <EmployeeTypeRow employeeTypes={employeeTypes} filteredId={parseInt(id)}/>) ||
-                (employeeTypes && <EmployeeTypeRow employeeTypes={employeeTypes} />)
-            }
+        <div>
+            <h1 className="form-hr">Employee Type List</h1>
+
+            <div className="screen">
+                <EmployeeTypeSearch database="/employeetype/"/>
+                {
+                    (employeeTypes && id && <EmployeeTypeRow employeeTypes={employeeTypes} filtered={id}/>) ||
+                    (employeeTypes && <EmployeeTypeRow employeeTypes={employeeTypes} />)
+                }
+            </div>
         </div>
     )
 }
