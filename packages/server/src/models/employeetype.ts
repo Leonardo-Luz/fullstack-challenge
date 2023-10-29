@@ -1,36 +1,52 @@
-import { Model , DataTypes , Sequelize } from "sequelize";
+import { Model , Sequelize, INTEGER, STRING, BOOLEAN, DATE, NOW } from "sequelize";
 
 import { employeeTypeRequestBody } from '../types/employeetype';
 
 import database from "../config";
 
+import { employeeModel } from "./employee";
+
 const sequelize = database.sequelize as Sequelize;
 
-export class employeetypeModel extends Model<employeeTypeRequestBody>
-{
-    declare employeetypeid: number;
-    declare description: string;
-    declare situation: boolean;
-}
-
-employeetypeModel.init(
+interface employeetypeI extends Model<employeeTypeRequestBody>,
+employeeTypeRequestBody{}
+ 
+export const employeetypeModel = sequelize.define<employeetypeI>(
+    'employeetype',
     {
         employeetypeid: {
-            type: DataTypes.INTEGER,
             primaryKey: true,
+            type: INTEGER,
+            unique: true,
         },
         description: {
-            type: DataTypes.STRING,
             allowNull: false,
+            type: STRING,
         },
         situation: {
-            type: DataTypes.BOOLEAN,
             allowNull: false,
+            type: BOOLEAN,
         },
-    },
-    {
-        sequelize,
-        timestamps: false,
-        tableName: 'employeetype'
+        createdAt: {
+            allowNull: true,
+            type: DATE,
+            defaultValue: NOW(),
+        },
+        updatedAt: {
+            allowNull: true,
+            type: DATE,
+            defaultValue: NOW(),
+        },
     }
-);
+)
+
+employeetypeModel.hasMany(employeeModel, {
+    sourceKey: 'employeetypeid',
+    foreignKey: 'employeetypeid',
+    as: 'employees'
+})
+
+employeeModel.belongsTo(employeetypeModel, {
+    foreignKey: 'employeetypeid',
+    as: 'employeetype'
+})

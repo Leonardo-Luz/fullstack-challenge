@@ -5,4 +5,7 @@ export type employeeRequestBody = {
     email: string | null,
     employeetypeid: number,
     situation: boolean,
+    createdAt: Date | null,
+    updatedAt: Date | null,    
 };
+ 

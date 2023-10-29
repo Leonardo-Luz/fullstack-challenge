@@ -1,45 +1,51 @@
-import { Model , DataTypes , Sequelize , ForeignKey } from "sequelize";
+import { Model , Sequelize, INTEGER, STRING, BOOLEAN, DATE, NOW } from "sequelize";
 
 import { employeeRequestBody } from '../types/employee';
 
 import database from "../config";
-import { employeetypeModel } from "./employeetype";
 
 const sequelize = database.sequelize as Sequelize;
 
-export class employeeModel extends Model<employeeRequestBody>
-{
-    declare employeeid: number;
-    declare name: string;
-    declare cellnum: string | null;
-    declare email: string | null;
-    declare employeetypeid: ForeignKey<employeetypeModel['employeetypeid']>;
-    declare situation: boolean;
-}
+interface employeetypeI extends Model<employeeRequestBody>,
+employeeRequestBody{}
 
-employeeModel.init(
+export const employeeModel = sequelize.define<employeetypeI>(
+    'employee',
     {
         employeeid: {
-            type: DataTypes.INTEGER,
             primaryKey: true,
+            type: INTEGER,
+            unique: true,
         },
         name: {
-            type: DataTypes.STRING,
             allowNull: false,
+            type: STRING,
         },
-        cellnum: DataTypes.BOOLEAN,
-        email: DataTypes.STRING,
+        cellnum: {
+            allowNull: true,
+            type: STRING,
+        },
+        email: {
+            allowNull: true,
+            type: STRING,
+        },
         employeetypeid: {
-            type: DataTypes.INTEGER,
-        },
-        situation: {
-            type: DataTypes.BOOLEAN,
             allowNull: false,
-        }
-    },
-    {
-        sequelize,
-        timestamps: false,
-        tableName: 'employee'
+            type: INTEGER,
+        },                
+        situation: {
+            allowNull: false,
+            type: BOOLEAN,
+        },
+        createdAt: {
+            allowNull: true,
+            type: DATE,
+            defaultValue: NOW(),
+        },
+        updatedAt: {
+            allowNull: true,
+            type: DATE,
+            defaultValue: NOW(),
+        },
     }
-);
+)
