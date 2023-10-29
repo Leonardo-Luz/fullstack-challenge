@@ -1,4 +1,22 @@
-a{
-    text-decoration: none;
-    color: black;
+.navbar-link{
+    transition: 60ms;
+
+    font-size: 18px;
+}
+
+.navbar-link:hover
+{
+    border-bottom: 2px solid rgb(122, 202, 122);
+    color: rgb(122, 202, 122);
+    display: block;
+}
+
+
+.navbar-logo
+{
+    height: 50px;
+
+    filter: brightness(0);
+    margin: 0px;
+    padding: 0px;
 }

@@ -15,6 +15,16 @@
 
     margin: 0 auto;
 
-    width: 40%;
+    width: 55%;
+}
 
+.form-hr
+{
+    width: 25%;
+
+    border-bottom: 2px solid black;
+
+    margin: 0 auto;
+
+    margin-bottom: 30px;
 }
