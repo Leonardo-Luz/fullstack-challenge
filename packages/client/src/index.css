@@ -23,6 +23,7 @@ a
 ::-webkit-scrollbar
 {
     width: 10px;
+    height: 8px;
 
     background-color: rgba(56, 33, 33, 0.178);
 }
@@ -31,3 +32,4 @@ a
     background-color: rgb(14, 110, 110);
     border-radius: 20px;
 }
+
