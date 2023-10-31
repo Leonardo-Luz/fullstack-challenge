@@ -1,8 +1,8 @@
 #navbar
 {   
-    margin-top: 20px;
+    margin-top: 8px;
     
-    position: fixed;
+    position: static;
 
     display: flex;
     flex-direction: row;
@@ -30,15 +30,155 @@
     width: 70%;
 
     background-color: rgb(255, 255, 255);    
+
+    transition: height .25s;
+
+    height: 38px;
 }
+
+#hamburger-menu {
+    width: 45px;
+    height: 40px;
+    display: block;
+    border: none;
+    padding: 0px;
+    background: linear-gradient(
+      to bottom, 
+      black, black 20%, 
+      white 20%, white 40%, 
+      black 40%, black 60%, 
+      white 60%, white 80%, 
+      black 80%, black 100%
+    );
+}    
 
 #links
 {
+    visibility: hidden;
+
+    position: fixed;
+    top: 8px;
+    right: -350px;
+    width: 40%;
+    height: 100%;
+    background-color: white;
+    border-top: 2px solid black;
+    border-left: 2px solid black;
+    /* transition: 0.3s; */
+    padding: 0px 10px;
+    box-sizing: border-box;
+
+    z-index: 10;
+
     display: flex;
-    flex-direction: row;
-    
-    justify-content: space-evenly;
+    flex-direction: column;
+
+    justify-content: top;
     align-items: center;
 
-    width: 60%;
+    gap: 10px;
+}  
+
+.overlay
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .35s, visibility .35s, height .35s;
+    overflow: hidden;
+    background: black;
+    z-index: -1;
 }
+
+#hamburger-input
+{
+    display: none;
+}
+
+#hamburger-input:checked ~ .overlay{
+    visibility: visible;
+    opacity: 0.4;
+
+    z-index: 2;
+}
+
+#hamburger-input:checked ~ * #links {
+    visibility: visible;
+    right: 0;
+}
+
+.menu-button
+{
+    display: none;
+
+    border-bottom: 1px solid black;
+    width: 100%;
+    padding: 2px 0px 18px 0px;
+
+    font-size: 24px;
+}
+
+#hamburger-input:checked ~ * .menu-button {
+    display: block;
+}
+
+
+@media only screen and (min-width: 758px) {
+    #navbar
+    {
+        position: fixed;
+        margin-top: 20px;
+    }
+    #links
+    {
+        top: 20px;
+        position: static;
+        opacity: 1;
+        z-index: 1;
+        background-color: transparent;
+
+        display: flex;
+        flex-direction: row;
+        
+        justify-content: space-evenly;
+        align-items: center;
+    
+        width: 100%;
+    
+        background-color: transparent;
+        transition: 0s;
+        padding: 0px 10px;    
+
+        border: none;
+
+        visibility: visible;
+    }
+
+    #hamburger-menu {
+        width: 60%;
+        display: flex;
+        height: auto;
+        border: none;
+        margin: 0px;
+        background: linear-gradient(
+            to bottom, 
+            transparent 100%, transparent 100%
+          );
+    }  
+    #hamburger-input:checked ~ * .menu-button {
+        display: none;
+    }
+    #hamburger-input:checked ~ .overlay{
+        visibility: hidden;
+    } 
+    #inside
+    {
+        height: 50px;
+    }       
+}
+
+

@@ -12,17 +12,37 @@ table{
     border: 2px solid rgb(204, 204, 204);
     background-color: rgb(245, 245, 245);
 
+    width: 90%;
     max-width: 700px;
+
+    overflow-x: auto;
 }
 
 thead
 {
     box-shadow: 0px 8px 8px -8px rgba(0, 0, 0, 0.459);
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 tbody
 {
     padding-top: 8px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+tr
+{
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 td{
@@ -31,12 +51,13 @@ td{
     overflow: hidden;
     text-overflow: ellipsis; 
 
-    max-width: 90px;
+    min-width: 60px;
+    max-width: 300px;
 }
 
 .id
 {
-    width: 60px;   
+    width: 60px;
 }
 
 .desc
@@ -46,12 +67,12 @@ td{
 
 .cell
 {
-    width: 90px;
+    width: 300px;
 }
 
 .mail
 {
-    width: 90px;
+    width: 300px;
 }
 
 .sit

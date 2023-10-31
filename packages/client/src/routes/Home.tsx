@@ -2,12 +2,10 @@ import Box from "../components/home/Box";
 import './home.css'
 
 const Home = () =>
-{
+{    
     return(
         <div>
-            <h1>Home</h1>
-
-            <hr className="home-hr"/>
+            <h1 className="home-hr">Home</h1>
 
             <div id="container">
                 <Box target1='/employeeform' target2="/employee">Employee</Box>

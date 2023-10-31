@@ -1,6 +1,7 @@
 import { employeeTypeProps } from "../../types/employeetype";
 import { useNavigate } from 'react-router-dom'
 import '../../styles/table.css';
+import { useState , useEffect } from 'react'
 
 import delete_ico from '../../images/delete.png';
 import edit_ico from '../../images/edit.png'
@@ -46,22 +47,46 @@ const EmployeeTypeRow = ( { employeeTypes , filtered }: EmployeeTypeRowProps) =>
         }
     }    
 
+    const [tableWidith , setTableWidth] = useState<number | undefined>(undefined);
+
+    const handle = async () => 
+    {
+        const res = document.getElementById('employeetypeTable')?.scrollWidth as number;
+        setTableWidth(res);
+    }
+
+    useEffect(() => {
+        handle();
+    })
+
+    window.onresize = () =>
+    {
+        handle();
+    }
+
     return(
-        <table>
-            <thead><tr><td className="id">id</td><td className="desc">description</td><td className="sit">situation</td><td className="sit">update</td><td className="sit">delete</td></tr></thead>
-            <tbody>
-            {(employeeTypes_?.length === 0 && <tr><td className="desc">No data</td></tr>) || 
-             (employeeTypes_ && employeeTypes_.map((data) => {
-                const row = 
+        <table id="employeetypeTable">
+            {tableWidith !== undefined && 
+            <thead style={{width: tableWidith-2}}>
+                <tr>
+                    <td className="id">id</td><td className="desc">description</td>
+                    <td className="sit">situation</td><td className="sit">update</td>
+                    <td className="sit">delete</td>
+                </tr>
+            </thead>}
+            {tableWidith !== undefined &&
+            <tbody style={{width: tableWidith-2}}>
+            {(employeeTypes_?.length === 0 && <tr><td className="desc">No data</td></tr>) ||
+             (employeeTypes_ && employeeTypes_.map((data)=>{
+                const row =
                 <tr>
                     {/* criar td como objeto ts separado */}
-                    <td className="id" onClick={(e)=> {navigator.clipboard.writeText(data.employeetypeid.toString()); console.log('data copied')}}>{data.employeetypeid}</td>
-                    <td className="desc" onClick={(e)=> {navigator.clipboard.writeText(data.description); console.log('data copied')}}>{data.description}</td>
-                    <td className="sit" onClick={(e)=> {navigator.clipboard.writeText(data.situation.toString()); console.log('data copied')}}>{(data.situation && "Ativo")||(!data.situation && "Desligado")}</td>
-                    <td className="del" onClick={(e)=> {navigate(`/employeetypeupdate/${data.employeetypeid}`)}}><img className="ico" src={edit_ico} alt="Edit Icon" ></img></td>
-                    <td className="del" onClick={(e)=> {deleteEmployeeType(data.employeetypeid)}}><img className="ico" src={delete_ico} alt="Delete Icon" ></img></td>
+                    <td className="id" title={data.employeetypeid.toString()} onClick={(e)=> {navigator.clipboard.writeText(data.employeetypeid.toString()); console.log('data copied')}}>{data.employeetypeid}</td>
+                    <td className="desc" title={data.description.toString()} onClick={(e)=> {navigator.clipboard.writeText(data.description); console.log('data copied')}}>{data.description}</td>
+                    <td className="sit" title={((data.situation && "Ativo")||(!data.situation && "Desligado")) as string} onClick={(e)=> {navigator.clipboard.writeText(data.situation.toString()); console.log('data copied')}}>{(data.situation && "Ativo")||(!data.situation && "Desligado")}</td>
+                    <td className="del" title="Update" onClick={(e)=> {navigate(`/employeetypeupdate/${data.employeetypeid}`)}}><img className="ico" src={edit_ico} alt="Edit Icon" ></img></td>
+                    <td className="del" title="Delete" onClick={(e)=> {deleteEmployeeType(data.employeetypeid)}}><img className="ico" src={delete_ico} alt="Delete Icon" ></img></td>
                 </tr>
-                
                 if(filtered === undefined)
                     return row
                 else if(!FilterCheck() && !notfound)
@@ -75,7 +100,7 @@ const EmployeeTypeRow = ( { employeeTypes , filtered }: EmployeeTypeRowProps) =>
                     return row
                 else return null
             }))}
-            </tbody>
+            </tbody>}
         </table>
     )
 }

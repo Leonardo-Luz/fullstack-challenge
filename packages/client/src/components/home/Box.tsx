@@ -10,9 +10,8 @@ type BoxProps = {
 
 const Box = ( { children, target1 , target2 }: BoxProps ) =>
 {
-    const [ count , setCount ] = useState(Number);
-
-    console.log(target2);
+    const [ count , setCount ] = useState(0);
+    const [ loading , setLoading ] = useState(false);
 
     const getByLink = async () =>
     {
@@ -20,6 +19,7 @@ const Box = ( { children, target1 , target2 }: BoxProps ) =>
         .then((res) => res.json()
         .then((data) => {
             setCount(data.length);
+            setLoading(true);
         })
         )
     }
@@ -34,7 +34,7 @@ const Box = ( { children, target1 , target2 }: BoxProps ) =>
             <Link className="button" to={target1}>Create</Link>
             <Link className="button" to={target2}>List</Link>
             <hr/>
-            {count && <h2>{count}</h2>}
+            {loading && <h2>{count}</h2>}
         </div>
     )
 }

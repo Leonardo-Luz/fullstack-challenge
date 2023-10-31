@@ -24,7 +24,7 @@
 
 .logo
 {
-    height: 50px;
+    height: 40px;
 
     filter: brightness(0);
 }
@@ -33,22 +33,45 @@
 {
     display: flex;
     flex-direction: row;
+
     gap: 5px;
 }
 
 .social-media img
 {
-    height: 50px;
+    height: 28px;
 }
 
-.social-media img:hover
-{
-    transform: scale(1.06);
-}
 
 .copyright
 {
     text-decoration: underline;
 
-    font-size: 15px;
+    font-size: 12px;
+
+    width: 40%;
+}
+
+@media only screen and (min-width: 758px) {
+    .social-media img
+    {
+        height: 45px;
+    }
+    .social-media
+    {
+        flex-direction: row;
+    }
+    .social-media img:hover
+    {
+        transform: scale(1.06);
+    }
+    .logo
+    {
+        height: 50px;
+    }
+    .copyright
+    {
+        font-size: 15px;
+    }
+    
 }
