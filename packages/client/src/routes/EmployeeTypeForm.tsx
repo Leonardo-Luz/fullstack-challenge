@@ -14,11 +14,32 @@ const EmployeeTypeForm = () =>
         situation: true
     });
 
+    const [showError , setShowError] = useState<boolean>(false);
+
+    const [errorLog, setErrorlog] = useState({
+        employeetypeid: 'employeetypeid is required',
+        description: 'description is required',
+        situation: ''
+    })    
+
     const handleForm = (e: React.FormEvent<HTMLInputElement>) =>
     {
         const newEmployeeType = {...employeetype};
+        const newErrorLog = {...errorLog};
+
         const parameter = e.currentTarget.id as 'employeetypeid' | 'description' | 'situation';
-        console.log(parameter);
+
+        //check if id is taken
+        if((e.currentTarget.value === null || e.currentTarget.value === undefined || e.currentTarget.value === ''))
+        {
+            newErrorLog[parameter] = `${parameter} is required`
+            setErrorlog(newErrorLog);
+        }
+        else
+        {            
+            newErrorLog[parameter] = ''
+            setErrorlog(newErrorLog);
+        }
 
         if(parameter === 'employeetypeid')
             newEmployeeType[parameter] = parseInt(e.currentTarget.value);
@@ -31,10 +52,27 @@ const EmployeeTypeForm = () =>
         setEmployeeType(newEmployeeType);
     }
 
-    const createEmployeeType = async (e: React.MouseEvent) =>
+    const validation = (e: React.MouseEvent) =>
     {
+        if(
+            errorLog.description !== '' || 
+            errorLog.employeetypeid !== '' ||
+            errorLog.situation !== ''
+        )
+        {
+            e.preventDefault();
+            
+            setShowError(true);
+
+            return;
+        }
         e.preventDefault();
 
+        createEmployeeType();
+    }    
+
+    const createEmployeeType = async () =>
+    {
         await fetch('http://10.0.0.239:3001/employeetype', {
             method: 'POST',
             headers: {
@@ -53,13 +91,15 @@ const EmployeeTypeForm = () =>
                 <h3>Employee Type Registration</h3>
 
                 <hr/>
-                <label><p>ID:</p><input className="field" placeholder="0" type="number" onChange={(e)=>handleForm(e)} id="employeetypeid" value={employeetype.employeetypeid || undefined}/></label>
-                <label><p>Descrição:</p><input placeholder="admin..." className="field" type="text" onChange={(e)=>handleForm(e)} id="description" value={employeetype.description}/></label>
-                <label><p>Situação:</p><input defaultChecked className="check" type="checkbox" onChange={(e)=>handleForm(e)} id="situation" value={employeetype.situation.toString()}/></label>
+                <label><p>ID:</p><input className="field" placeholder="0" type="number" onChange={(e)=>handleForm(e)} id="employeetypeid" defaultValue={employeetype.employeetypeid || undefined}/></label>
+                {(errorLog.employeetypeid !== '' && showError ) && <label><p>{errorLog.employeetypeid}</p></label>}
+                <label><p>Descrição:</p><input placeholder="admin..." className="field" type="text" onChange={(e)=>handleForm(e)} id="description" defaultValue={employeetype.description}/></label>
+                {(errorLog.description !== '' && showError ) && <label><p>{errorLog.description}</p></label>}
+                <label><p>Situação:</p><input defaultChecked className="check" type="checkbox" onChange={(e)=>handleForm(e)} id="situation" defaultValue={employeetype.situation.toString()}/></label>
 
                 <hr/>
 
-                <button onClick={(e) => createEmployeeType(e)}>Submit</button>
+                <div className="buttons"><button type="submit" onClick={(e) => validation(e)}>Submit</button><button onClick={ () => navigate('/employeetype')}>Cancel</button></div>
             </form>
         </div>
     )
