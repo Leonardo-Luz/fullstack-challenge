@@ -1,4 +1,3 @@
-import { Pool } from "pg";
 import { Sequelize } from "sequelize";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -25,7 +24,8 @@ class Database{
            password: this.POSTGRES_PASSWORD,
            host: this.POSTGRES_HOST,
            port: this.POSTGRES_PORT,
-           dialect: 'postgres'
+           dialect: 'postgres',
+           logging: false
         });
 
         await this.sequelize.authenticate()
@@ -38,6 +38,6 @@ class Database{
     }
 }
 
-const database: Database = new Database();
+const database = new Database();
 
 export default database;
