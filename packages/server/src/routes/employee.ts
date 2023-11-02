@@ -1,15 +1,15 @@
 import { Router } from "express";
-import { createEmployee, deleteEmployee, getEmployeeById, getEmployees, updateEmployee } from "../controllers/employee.controler";
+import { createEmployeeHandler, deleteEmployeeHandler, getEmployeeByIdHandler, getEmployeesHandler, updateEmployeeHandler } from "../controllers/employee.controler";
 
 export const router = Router();
 
-router.get('/', getEmployees );
+router.get('/', getEmployeesHandler );
 
-router.get('/:id', getEmployeeById );
+router.get('/:id', getEmployeeByIdHandler );
 
-router.post('/', createEmployee );
+router.post('/', createEmployeeHandler );
 
-router.put('/:id', updateEmployee );
+router.put('/:id', updateEmployeeHandler );
 
-router.delete('/:id', deleteEmployee );
+router.delete('/:id', deleteEmployeeHandler );
 
