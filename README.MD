@@ -1,49 +1,54 @@
+
+# Backend
+
 ## Library
+### Jest e supertest
+Usados para testagem de api
+
+### sequelize
+Criação de modelos, conectar no database e metodos http.
+
+### dotenv
+Separar variaveis expecificas do código
+
+### pg
+Biblioteca do postgres
+
+### ts-node
+Executa a aplicação em ts ao invez de buildar para js e então executar, acelerando o processo de testagem
+
+### nodemon
+Executa a aplicação em "watch mode", atualizando-a ao vivo para cada mudança salva
+
+### typescript
+Biblioteca do typescript
+
+### @types/*
+Tipagem para typescript
 
 ## Framework
-
-file-loader 
-    used to import png or any type into ts scripts
-
-Sequelize
-    create db models and CRUD
-
-dotenv
-    load envirment variables
-
-pg 
-    Acessar postgres BD
-
-typescript -D
-
-@types/{ pg , express } -D
-    tipagem 
-    
---
-Express // Mudar para NextJS
-    framework
+### Express // Mudar para NextJS
     create rest api 
 
-nodemon
-    dependencia para teste, roda a aplicação "ao vivo", qualquer mudança no código é atualizado na hora
+# Frontend
 
-ts-node
-    Executa a aplicação em ts ao invez de buildar para js e entao executar
+## Library
+### react
 
+### react-dom
 
-timestamp update
-CREATE OR REPLACE FUNCTION trigger_set_timestamp()
-RETURNS TRIGGER AS $$
-BEGIN
-  NEW.updated_at = NOW();
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+### react-router-dom
+Criação de rotas com react
 
-CREATE TRIGGER set_timestamp
-BEFORE UPDATE ON todos
-FOR EACH ROW
-EXECUTE PROCEDURE trigger_set_timestamp();
+### react-scripts
+Execução de scripts com react
+
+### typescript
+
+### file-loader
+Usado para import de imagens para arquivos typescript
+
+### @types/*
 
 credits
 <a href="https://www.flaticon.com/free-icons/trash" title="trash icons">Trash icons created by Freepik - Flaticon</a>
