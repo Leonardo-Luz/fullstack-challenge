@@ -6,7 +6,7 @@ import database from "../config";
 
 const sequelize = database.sequelize as Sequelize;
 
-interface employeetypeI extends Model<employeeRequestBody>,
+export interface employeetypeI extends Model<employeeRequestBody>,
 employeeRequestBody{}
 
 export const employeeModel = sequelize.define<employeetypeI>(
