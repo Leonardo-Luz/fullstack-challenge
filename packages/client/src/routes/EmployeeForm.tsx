@@ -144,7 +144,7 @@ const EmployeeForm = () =>
 
                 <hr/>
             
-                <div className="buttons"><button type="submit" onClick={(e) => validation(e)}>Submit</button><button onClick={ () => navigate('/employeetype')}>Cancel</button></div>
+                <div className="buttons"><button type="submit" onClick={(e) => validation(e)}>Submit</button><button onClick={ () => navigate('/employee')}>Cancel</button></div>
             </form>
         </div>
     )
