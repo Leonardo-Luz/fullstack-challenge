@@ -1,14 +1,13 @@
-import { Request , Response, json } from "express"
+import { Request , Response } from "express"
 import { employeeRequestBody } from "../types/employee";
 import { employeeModel } from "../models/employee";
+import { createEmployee, deleteEmployee, getEmployeeById, getEmployees, updateEmployee } from "../service/employee.service";
 
-import db from "../config";
-
-export const getEmployees = async ( req: Request, res: Response ): Promise<Response> =>
+export const getEmployeesHandler = async ( req: Request, res: Response ): Promise<Response> =>
 {
     try
     {
-        const response = await employeeModel.findAll();
+        const response = await getEmployees( employeeModel );
         
 
         return res.status(200).json(response);
@@ -21,14 +20,14 @@ export const getEmployees = async ( req: Request, res: Response ): Promise<Respo
     }
 }
 
-export const getEmployeeById  = async ( req: Request, res: Response ): Promise<Response> =>
+export const getEmployeeByIdHandler  = async ( req: Request, res: Response ): Promise<Response> =>
 {
     
     try
     {
         const id = parseInt(req.params.id);
 
-        const response = await employeeModel.findByPk(id);
+        const response = await getEmployeeById(id , employeeModel);
         
         if(response != null)
             return res.status(200).json(response);
@@ -43,31 +42,22 @@ export const getEmployeeById  = async ( req: Request, res: Response ): Promise<R
     }
 }
 
-export const createEmployee  = async ( req: Request<{}, any, employeeRequestBody> , res: Response ): Promise<Response> =>
+export const createEmployeeHandler  = async ( req: Request<{}, any, employeeRequestBody> , res: Response ): Promise<Response> =>
 {
     try
     {
-        const { employeeid , name , cellnum , email , employeetypeid, situation } = req.body; 
-    
-        await employeeModel.create({
-            employeeid: employeeid,
-            name: name,
-            cellnum: cellnum,
-            email: email,
-            employeetypeid: employeetypeid, 
-            situation: situation,
+        const body = req.body; 
+
+        await createEmployee( employeeModel ,
+        {
+            ...body
         })
-    
+
         return res.status(200).json({
             message: 'Employee successfully created', 
             body: { 
                 employee: { 
-                    employeeid,
-                    name,
-                    cellnum,
-                    email,
-                    employeetypeid,
-                    situation
+                    ...body,
                 }
             }
         });
@@ -80,17 +70,17 @@ export const createEmployee  = async ( req: Request<{}, any, employeeRequestBody
     }
 }
 
-export const deleteEmployee  = async ( req: Request, res: Response ): Promise<Response> =>
+export const deleteEmployeeHandler  = async ( req: Request, res: Response ): Promise<Response> =>
 {
     try
     {
         const id = parseInt(req.params.id);
 
-        const response = await employeeModel.findByPk(id);
+        const response = await getEmployeeById(id, employeeModel);
         
         if(response != null)
         {
-            response.destroy();
+            deleteEmployee(response);
 
             return res.status(200).json(`User ${id} successfully deleted`);
         }
@@ -105,7 +95,7 @@ export const deleteEmployee  = async ( req: Request, res: Response ): Promise<Re
     }
 }
 
-export const updateEmployee  = async ( req: Request<{ id:string }, any, employeeRequestBody> , res: Response ): Promise<Response> =>
+export const updateEmployeeHandler  = async ( req: Request<{ id:string }, any, employeeRequestBody> , res: Response ): Promise<Response> =>
 {
     try
     {
@@ -113,17 +103,18 @@ export const updateEmployee  = async ( req: Request<{ id:string }, any, employee
 
         const { name , cellnum , email , employeetypeid, situation } = req.body; 
 
-        const response = await employeeModel.findByPk(id);
-        
-        if(response != null)
-        {
-            response.name = name;
-            response.cellnum = cellnum;
-            response.email = email;
-            response.employeetypeid = employeetypeid;
-            response.situation = situation;
+        const employee = await getEmployeeById(id, employeeModel);
 
-            await response.save();
+        
+        if(employee != null)
+        {
+            employee.name = name;
+            employee.cellnum = cellnum;
+            employee.email = email;
+            employee.employeetypeid = employeetypeid;
+            employee.situation = situation;
+
+            await updateEmployee(employee);
 
             return res.status(200).json(`Employee ${id} successfully updated`);
         }

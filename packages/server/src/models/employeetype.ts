@@ -2,13 +2,13 @@ import { Model , Sequelize, INTEGER, STRING, BOOLEAN, DATE, NOW } from "sequeliz
 
 import { employeeTypeRequestBody } from '../types/employeetype';
 
-import database from "../config";
-
 import { employeeModel } from "./employee";
+
+import database from "../config";
 
 const sequelize = database.sequelize as Sequelize;
 
-interface employeetypeI extends Model<employeeTypeRequestBody>,
+export interface employeetypeI extends Model<employeeTypeRequestBody>,
 employeeTypeRequestBody{}
  
 export const employeetypeModel = sequelize.define<employeetypeI>(
