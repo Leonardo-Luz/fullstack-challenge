@@ -1,4 +1,5 @@
 import { ModelStatic } from "sequelize";
+
 import { employeetypeI } from "../models/employee";
 
 export const getEmployees = async ( employeeModel: ModelStatic<employeetypeI> ) =>

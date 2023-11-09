@@ -1,91 +1,121 @@
+import { now } from "sequelize/lib/utils";
+
 import { employeeRequestBody } from "../types/employee";
 
-//Not in usage
+//in mem crud for test
 
-let itens = [] as employeeRequestBody[];
-
-export const inMemGetEmployees = async ( ) =>
-{
-    try
-    {
-        const response = itens;
-        
-    }
-    catch (e)
-    {
-        console.log(e);
-    }
+export type InMemoryEmployeeProps = {
+    inMemGetEmployees: () => any;
+    inMemGetEmployeeById: (id : number) => any;
+    inMemCreateEmployee: (data: employeeRequestBody) => any; 
+    inMemDeleteEmployee: (id : number) => any; 
+    inMemUpdateEmployee: (data: employeeRequestBody, id: number) => any; 
 }
 
-export const inMemGetEmployeeById  = async ( id:number ) =>
-{
+export class InMemoryEmployee {
+    itens = [] as employeeRequestBody[];
+
+    inMemGetEmployees = async ( ) =>
+    {
+        try
+        {
+            const response = this.itens;
+
+            return response;
+        }
+        catch (e)
+        {
+            console.log(e);
+        }
+    }
+
+    inMemGetEmployeeById  = async ( id:number ) =>
+    {
+        
+        try
+        {
+            const response = this.itens.find( (data) => {
+                data.employeeid == id
+            });
+
+            return response;
+        }
+        catch (e)
+        {
+            console.log(e);
+        }
+    }
+
+    inMemCreateEmployee  = async (data: employeeRequestBody) =>
+    {
+        try
+        {
+            const employee = {
+                ...data
+            } as employeeRequestBody
+
+            employee.createdAt = now('postgres');
+            employee.updatedAt = now('postgres');
     
-    try
-    {
-        const response = itens.find( (data) => {
-            data.employeeid == id
-        });
-    }
-    catch (e)
-    {
-        console.log(e);
-    }
-}
+            this.itens.push(employee);
 
-export const inMemCreateEmployee  = async (data: employeeRequestBody) =>
-{
-    try
-    {
-        const employee = {
-            ...data
-        } as employeeRequestBody
-
-        itens.push(employee);
-    } 
-    catch (e)
-    {
-        console.log(e);
-    }
-}
-
-export const inMemDeleteEmployee = async ( id:number ) =>
-{
-    try
-    {
-        const response = itens.find((data) => {
-            data.employeeid == id;
-        });
-        
-        if(response != undefined)
+            return employee;
+        } 
+        catch (e)
         {
-            itens.splice(itens.indexOf(response), 1);
+            console.log(e);
         }
-        else
-            console.log("Not found");
     }
-    catch (e)
+
+    inMemDeleteEmployee = async ( id:number ) =>
     {
-        console.log(e);
+        try
+        {
+            const response = this.itens.find((data) => {
+                data.employeeid == id;
+            });
+            
+            if(response != undefined)
+            {
+                this.itens.splice(this.itens.indexOf(response), 1);
+
+                return response;
+            }
+            else
+                console.log("Not found");
+        }
+        catch (e)
+        {
+            console.log(e);
+        }
+    }
+
+    inMemUpdateEmployee  = async ( data: employeeRequestBody , id: number ) =>
+    {
+        try
+        {
+            const employee = this.itens.find( (data) => {
+                data.employeeid == id
+            });
+            
+            if(employee != undefined)
+            {
+                employee.updatedAt = now('postgres');
+                this.itens[this.itens.indexOf(employee)] = data;
+
+                return employee;
+            }
+            else
+                console.log('not found');
+        }
+        catch (e)
+        {
+            console.log(e);
+        }
     }
 }
 
-export const inMemUpdateEmployee  = async ( data: employeeRequestBody , id: number ) =>
-{
-    try
-    {
-        const employee = itens.find( (data) => {
-            data.employeeid == id
-        });
-        
-        if(employee != undefined)
-        {
-            itens[itens.indexOf(employee)] = data;
-        }
-        else
-            console.log('not found');
-    }
-    catch (e)
-    {
-        console.log(e);
-    }
-}
+
+
+
+

@@ -1,8 +1,10 @@
+import './index.css';
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
+import App from './App';
 import Home from './routes/Home';
 import Employeetype from './routes/EmployeeType';
 import Error from './routes/Error';
@@ -15,8 +17,8 @@ import EmployeeUpdate from './routes/EmployeeUpdate';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
-    errorElement: <Error/>,
+    element: <App />, // default route
+    errorElement: <Error/>, // error route
     children: [
       {
         path: '/',

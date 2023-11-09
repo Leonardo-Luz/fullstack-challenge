@@ -3,7 +3,7 @@ import express, { Application } from "express";
 import { healthRouter , employeeRouter , employeetypeRouter } from "../routes";
 import { errorHandler, logger, rules } from "../middlewares";
 
-// import { database } from "../app";
+import database from "../config";
 
 export class App {
     public app: Application;
@@ -16,11 +16,7 @@ export class App {
         //     credentials: true,
         // }));
 
-        // this.app.use(compression());
-        // this.app.use(cookieParser());
-        // this.app.use(bodyParser.json());
-
-        // this.databaseSync();
+        this.databaseSync();
 
         this.middlewares();
 
@@ -31,10 +27,10 @@ export class App {
         this.app.use(errorHandler);
     }
 
-    // protected databaseSync():void
-    // {
-    //     database.sequelize?.sync();
-    // }
+    protected databaseSync():void
+    {
+        database.sequelize?.sync();
+    }
 
     protected middlewares(): void
     {

@@ -1,13 +1,16 @@
 import supertest from "supertest"
+
 import { App } from "../utils/server"
+
+import { employeetypeI } from "../models/employee";
+
 import * as employeeService from "../service/employee.service";
 
 import { employeeRequestBody } from "../types/employee";
-import { employeetypeI } from "../models/employee";
 
 const app = new App().app;
 
-const employeePayLoad = {
+const employeePayLoad = { 
     "employeeid": 123456,
     "name":"aaaaa",
     "cellnum": "999",
@@ -27,14 +30,18 @@ const employeeInput = {
 } as employeeRequestBody
 
 describe("employee", () => {
-    it("start test", () => {
-        expect(true).toBe(true);
-    })
-    describe("get employee route", () => {
-        describe("given employee doesn't exist", () =>{
-            it("should return status: 404", async() => {            
-                const employeeid = 123;
 
+    beforeEach( () => {
+        jest.restoreAllMocks();
+        jest.clearAllMocks();
+        jest.resetAllMocks();
+    })
+
+    describe("get employee route--", () => {
+        describe("given employee doesn't exist", () =>{
+            it("should return status: 404", async() => { 
+                const employeeid = 123456;
+                
                 await supertest(app).get(`/employee/${employeeid}`)
                     .expect(404);
             })
@@ -42,18 +49,19 @@ describe("employee", () => {
 
         describe("given employee does exist", () =>{
             it("should return status: 200 and employee", async() => {        
-                const employeeid = 224;
+                const employeeid = 12345;
 
                 const { body , statusCode} = await supertest(app).get(`/employee/${employeeid}`)
                 
                 expect(statusCode).toBe(200);
                 
                 expect(body.employeeid).toBe(employeeid);
+
             });
         });
     })
-    describe("post employee route", () => {
-        describe("create wrong input employee", ()=> {
+    describe("post employee route--", () => {
+        describe("given rejected input", ()=> {
             it("should return status: 500", async ()=> {
                 const createEmployeeService = jest.spyOn(employeeService, 'createEmployee')
                 //@ts-ignore
@@ -69,7 +77,7 @@ describe("employee", () => {
                 expect(createEmployeeService).toHaveBeenCalled();
             })
         })
-        describe("create employee", ()=> {
+        describe("given right input", ()=> {
             it("should return status: 200 and employee", async ()=> {
                 const createEmployeeService = jest.spyOn(employeeService, 'createEmployee')
                 //@ts-ignore
@@ -88,8 +96,8 @@ describe("employee", () => {
             })
         })
     })
-    describe("put employee route", () => {
-        describe("update not found employee", () => {
+    describe("put employee route--", () => {
+        describe("given employee doesn't exist", () => {
             it("should return status: 404", async ()=> {
                 const UpdateEmployeeService = jest.spyOn(employeeService, 'updateEmployee')
                 //@ts-ignore
@@ -104,8 +112,11 @@ describe("employee", () => {
                 expect(UpdateEmployeeService).not.toHaveBeenCalled();
             })            
         })
-        describe("update wrong input employee", () => {
+        describe("given rejected input", () => {
             it("should return status: 500", async ()=> {
+
+                //create mock employee to update...
+
                 const UpdateEmployeeService = jest.spyOn(employeeService, 'updateEmployee')
                 //@ts-ignore
                 .mockRejectedValueOnce("Oh no!");
@@ -120,22 +131,63 @@ describe("employee", () => {
                 expect(UpdateEmployeeService).toHaveBeenCalled();
             })
         })
-        describe("update employee", () => {
-            it("should return status: 200 and updated employee", async ()=> {
-                const id = 12345
+        describe("given employee does exist and right input", () => { //error
+            it("should return status: 200", async ()=> {
+
+                //create mock employee to update...
 
                 const UpdateEmployeeService = jest.spyOn(employeeService, 'updateEmployee')
                 //@ts-ignore
                 .mockReturnValueOnce(employeePayLoad);
 
-                const { body , statusCode } = await supertest(app)
-                    .put(`/employee/${id}`)
-                    .send(employeeInput);
-                            
-                
-                expect(statusCode).toBe(200);
+                const { statusCode } = await supertest(app)
+                    .put(`/employee/224`)
+                    .send({
+                        cellnum: "999333",
+                        name: "teste"
+                    });
+                                    
+                expect( statusCode ).toBe(200);
                 
                 expect(UpdateEmployeeService).toHaveBeenCalled();
+
+                //expect updatedAt to be updated ! || cellnum || name
+            })
+        })
+    })
+    describe("delete employee route--", () => {
+        describe("given employee doesn't exist", () => {
+            it("should return status: 404", async ()=> {
+
+                const deleteEmployeeService = jest.spyOn(employeeService, 'deleteEmployee')
+                    //@ts-ignore
+                    .mockReturnValueOnce();
+
+                const { statusCode } = await supertest(app)
+                    .delete(`/employee/-9999`)
+                            
+                expect(statusCode).toBe(404);
+
+                expect(deleteEmployeeService).not.toHaveBeenCalled();
+            })
+        })    
+        describe("given employee does exist", () => {
+            it("should return status: 200", async ()=> {
+
+                //create mock employee to delete
+
+                const deleteEmployeeService = jest.spyOn(employeeService, 'deleteEmployee')
+                    //@ts-ignore
+                    .mockReturnValueOnce();
+
+                const { statusCode } = await supertest(app)
+                    .delete(`/employee/22`)
+                            
+                expect(statusCode).toBe(200);                
+
+                expect(deleteEmployeeService).toHaveBeenCalled();
+
+                //expect mock to be deleted
             })
         })
     })

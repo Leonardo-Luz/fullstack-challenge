@@ -1,3 +1,5 @@
+//images import
+
 declare module "*.jpg" {
     const path: string;
     export default path;

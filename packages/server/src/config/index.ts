@@ -25,7 +25,7 @@ class Database{
            host: this.POSTGRES_HOST,
            port: this.POSTGRES_PORT,
            dialect: 'postgres',
-           logging: false
+           logging: true
         });
 
         await this.sequelize.authenticate()

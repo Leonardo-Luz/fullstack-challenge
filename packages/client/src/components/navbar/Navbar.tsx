@@ -1,6 +1,8 @@
-import { useState } from "react";
-import {NavbarDropDown, NavbarLink, NavbarLogo} from "./NavbarElements";
 import './navbar.css';
+
+import { useState } from "react";
+
+import { NavbarDropDown, NavbarLink, NavbarLogo } from "./NavbarElements";
 
 const Navbar = () =>
 {
@@ -11,28 +13,38 @@ const Navbar = () =>
         setChecked(false);
     }
 
-    const ClickHandle = (bool: boolean) =>
+    const ClickHandle = () =>
     {
-        setChecked(bool);
+        setChecked(!checked);
     }
 
     return(
         <header id="navbar">
-            {<input type="checkbox" id="hamburger-input" readOnly checked={checked}/>}
+
+            {
+                <input type="checkbox" id="hamburger-input" readOnly checked={checked}/> 
+                /* hamburguer click target */
+            }
+
             <div id="inside">                
                 <NavbarLogo LocationChangeHandle={LocationChangeHandle}/>
                 
-                <label id="hamburger-menu" onClick={() => {ClickHandle(true)}}>
-                    <div id='links' onClick={()=> {ClickHandle(false)}}>
-                        <p className="menu-button">Menu</p>
-                        <NavbarLink LocationChangeHandle={LocationChangeHandle} link="/">Home</NavbarLink>
-                        <NavbarDropDown LocationChangeHandle={LocationChangeHandle} link="/employee">Employee</NavbarDropDown>
-                        <NavbarDropDown LocationChangeHandle={LocationChangeHandle} link="/employeetype">EmployeeType</NavbarDropDown>
-                    </div>
-                </label>
+                <label id="hamburger-menu" onClick={() => {ClickHandle()}} />
+
+                <div id='links'>
+
+                    <p className="menu-button" onClick={() => ClickHandle()}>Menu</p>
+
+                    <NavbarLink LocationChangeHandle={LocationChangeHandle} link="/">Home</NavbarLink>
+
+                    <NavbarDropDown checked={checked} clickHandle={ClickHandle} LocationChangeHandle={LocationChangeHandle} link="/employee">Employee</NavbarDropDown>
+                    <NavbarDropDown checked={checked} clickHandle={ClickHandle} LocationChangeHandle={LocationChangeHandle} link="/employeetype">EmployeeType</NavbarDropDown>
+                
+                </div>
             </div>      
 
-            <div className="overlay" onClick={() => {ClickHandle(false)}}></div>      
+            <div className="overlay" onClick={() => {ClickHandle()}} />
+
         </header>
     )
 }
