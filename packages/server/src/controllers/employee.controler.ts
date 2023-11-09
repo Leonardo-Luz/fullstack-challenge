@@ -1,7 +1,10 @@
 import { Request , Response } from "express"
-import { employeeRequestBody } from "../types/employee";
+
 import { employeeModel } from "../models/employee";
+
 import { createEmployee, deleteEmployee, getEmployeeById, getEmployees, updateEmployee } from "../service/employee.service";
+
+import { employeeRequestBody } from "../types/employee";
 
 export const getEmployeesHandler = async ( req: Request, res: Response ): Promise<Response> =>
 {
@@ -57,7 +60,7 @@ export const createEmployeeHandler  = async ( req: Request<{}, any, employeeRequ
             message: 'Employee successfully created', 
             body: { 
                 employee: { 
-                    ...body,
+                    ...body,               
                 }
             }
         });

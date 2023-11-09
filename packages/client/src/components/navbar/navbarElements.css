@@ -1,8 +1,6 @@
 .navbar-link:hover
 {
-    border-bottom: 2px solid rgb(122, 202, 122);
     color: rgb(122, 202, 122);
-    display: block;
 }
 
 .navbar-logo
@@ -29,14 +27,16 @@
 }
 
 .drop-down-menu{
-    display: none;
-
     position: relative;
+
+    display: flex;
+    flex-direction: column;
 }
 
 #navbar-div-input-Employee{
     display: none;
 }
+
 #navbar-div-input-EmployeeType{
     display: none;
 }
@@ -49,8 +49,6 @@
     font-size: 18px;
 
     line-break: anywhere;
-
-    z-index: 6;
 }
 
 
@@ -68,10 +66,6 @@
     background-color: white;
 }
 
-#navbar-div-input-Employee:checked ~ .drop-down{
-    display: flex;
-}
-
 #navbar-div-input-EmployeeType:checked ~ .drop-down-menu{
     width: 100%;
     display: flex;
@@ -86,12 +80,13 @@
     background-color: white;
 }
 
-
+#navbar-div-input-Employee:checked ~ .drop-down{
+    display: flex;
+}
 
 #navbar-div-input-EmployeeType:checked ~ .drop-down{
     display: flex;
 }
-
 
 @media only screen and (min-width: 758px) {    
     .navbar-div{
@@ -103,22 +98,21 @@
         padding: 12px;
 
         position: absolute;
-
+        
         border-bottom-left-radius: 12px;
         border-bottom-right-radius: 12px;
 
         border: 2px solid black;
     }
+
     #navbar-div-input-EmployeeType:checked ~ .drop-down-menu{
         padding: 12px;
 
         position: absolute;
-
+        
         border-bottom-left-radius: 12px;
         border-bottom-right-radius: 12px;
 
         border: 2px solid black;
-    }
-
-
+    }    
 }

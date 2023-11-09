@@ -1,5 +1,13 @@
 import { Router } from "express";
-import { createEmployeeHandler, deleteEmployeeHandler, getEmployeeByIdHandler, getEmployeesHandler, updateEmployeeHandler } from "../controllers/employee.controler";
+
+import 
+{ 
+    createEmployeeHandler, 
+    deleteEmployeeHandler, 
+    getEmployeeByIdHandler, 
+    getEmployeesHandler, 
+    updateEmployeeHandler 
+} from "../controllers/employee.controler";
 
 export const router = Router();
 

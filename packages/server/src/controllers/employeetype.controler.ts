@@ -1,12 +1,16 @@
 import { Request , Response } from "express"
-import { employeeTypeRequestBody } from "../types/employeetype";
+
 import { employeetypeModel } from "../models/employeetype";
- 
-export const getEmployeeTypes = async ( req: Request, res: Response ): Promise<Response> =>
+
+import { createEmployeeType, deleteEmployeeType, getEmployeeTypeById, getEmployeeTypes, updateEmployeeType } from "../service/employeetype.service";
+
+import { employeeTypeRequestBody } from "../types/employeetype";
+
+export const getEmployeeTypesHandler = async ( req: Request, res: Response ): Promise<Response> =>
 {
     try
     {
-        const response = await employeetypeModel.findAll();
+        const response = await getEmployeeTypes(employeetypeModel);
         
         return res.status(200).json(response);
     }
@@ -18,14 +22,14 @@ export const getEmployeeTypes = async ( req: Request, res: Response ): Promise<R
     }
 }
 
-export const getEmployeeTypeById  = async ( req: Request, res: Response ): Promise<Response> =>
+export const getEmployeeTypeByIdHandler  = async ( req: Request, res: Response ): Promise<Response> =>
 {
     
     try
     {
         const id = parseInt(req.params.id);
 
-        const response = await employeetypeModel.findByPk(id);
+        const response = await getEmployeeTypeById(id , employeetypeModel);
         
         if(response != null)
             return res.status(200).json(response);
@@ -40,40 +44,51 @@ export const getEmployeeTypeById  = async ( req: Request, res: Response ): Promi
     }
 }
 
-export const createEmployeeType  = async ( req: Request<{}, any, employeeTypeRequestBody> , res: Response ): Promise<Response> =>
+export const createEmployeeTypeHandler  = async ( req: Request<{}, any, employeeTypeRequestBody> , res: Response ): Promise<Response> =>
 {
-    const { employeetypeid , description , situation } = req.body;
+    try
+    {    
+        const { employeetypeid , description , situation } = req.body;
 
-    await employeetypeModel.create({
-        employeetypeid: employeetypeid,
-        description: description,
-        situation: situation,
-    });
+        await createEmployeeType(employeetypeModel ,
+        {
+            employeetypeid,
+            description,
+            situation
+        })
 
-    return res.status(200).json({
-        message: 'Employee Type successfully created',
-        body: { 
-            employeetype: { 
-                employeetypeid,
-                description,
-                situation 
+        return res.status(200).json({
+            message: 'Employee Type successfully created',
+            body: { 
+                employeetype: { 
+                    employeetypeid: employeetypeid,
+                    description: description,
+                    situation: situation
+                }
             }
-        }
-    });
+        })
+
+    } 
+    catch (e)
+    {
+        console.log(e);
+
+        return res.status(500).json('Server Error');
+    }
 }
 
-export const deleteEmployeeType  = async ( req: Request, res: Response ): Promise<Response> =>
+export const deleteEmployeeTypeHandler  = async ( req: Request, res: Response ): Promise<Response> =>
 {
     
     try
     {
         const id = parseInt(req.params.id);
 
-        const response = await employeetypeModel.findByPk(id);
+        const response = await getEmployeeTypeById(id , employeetypeModel);
 
         if(response != null)
         {
-            response.destroy();
+            deleteEmployeeType(response);
             
             return res.status(200).json(`User ${id} successfully deleted`);
         }
@@ -88,7 +103,7 @@ export const deleteEmployeeType  = async ( req: Request, res: Response ): Promis
     }
 }
 
-export const updateEmployeeType  = async ( req: Request<{ id:string }, any, employeeTypeRequestBody> , res: Response ): Promise<Response> =>
+export const updateEmployeeTypeHandler  = async ( req: Request<{ id:string }, any, employeeTypeRequestBody> , res: Response ): Promise<Response> =>
 {
     try
     {
@@ -96,14 +111,14 @@ export const updateEmployeeType  = async ( req: Request<{ id:string }, any, empl
 
         const { description , situation } = req.body;
 
-        const response = await employeetypeModel.findByPk(id);
+        const response = await getEmployeeTypeById(id, employeetypeModel);
 
         if(response != null)
         {
             response.description = description;
             response.situation = situation;
 
-            await response.save();
+            await updateEmployeeType(response);
             
             return res.status(200).json(`Employee Type ${id} successfully updated`);
         }

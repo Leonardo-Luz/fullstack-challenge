@@ -1,16 +1,18 @@
-import { useEffect, useState } from "react";
-import { employeeTypeProps } from "../types/employeetype";
-import EmployeeTypeSearch from "../components/database/DatabaseSearch";
-import EmployeeTypeRow from "../components/employeetype/EmployeeTypeRow";
 import './employeeTypeStyle.css';
 
+import { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
+
+import EmployeeTypeSearch from "../components/database/DatabaseSearch";
+import EmployeeTypeRow from "../components/employeetype/EmployeeTypeRow";
+
+import { employeeTypeProps } from "../types/employeetype";
 
 const Employeetype = () =>
 {
-    const [ employeeTypes , setEmployeeTypes ] = useState<employeeTypeProps[] | null>(null);
-
     const { id } = useParams();
+
+    const [ employeeTypes , setEmployeeTypes ] = useState<employeeTypeProps[] | null>(null);
 
     const getEmployeeTypes = async (): Promise<void> =>
     {
@@ -18,9 +20,9 @@ const Employeetype = () =>
         .then( ( res ) => 
         {
             res.json()
-            .then((data) => {
-                setEmployeeTypes(data);
-            })
+                .then((data) => {
+                    setEmployeeTypes(data);
+                })
         })
     }    
 

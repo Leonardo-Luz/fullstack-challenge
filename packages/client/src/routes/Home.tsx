@@ -1,5 +1,6 @@
+import './home.css';
+
 import Box from "../components/home/Box";
-import './home.css'
 
 const Home = () =>
 {    
@@ -8,8 +9,8 @@ const Home = () =>
             <h1 className="home-hr">Home</h1>
 
             <div id="container">
-                <Box target1='/employeeform' target2="/employee">Employee</Box>
-                <Box target1='/employeetypeform' target2="/employeetype">Employee Type</Box>
+                <Box table='/employee' >Employee</Box>
+                <Box table="/employeetype">Employee Type</Box>
             </div>
         </div>
     )

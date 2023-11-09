@@ -1,7 +1,7 @@
-import { useState } from "react";
 import '../styles/table.css';
 import '../styles/form.css';
 
+import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
 const EmployeeTypeForm = () =>
@@ -14,8 +14,9 @@ const EmployeeTypeForm = () =>
         situation: true
     });
 
-    const [showError , setShowError] = useState<boolean>(false);
+    const [showLog , setShowLog] = useState<boolean>(false);
 
+    //form validation errors
     const [errorLog, setErrorlog] = useState({
         employeetypeid: 'employeetypeid is required',
         description: 'description is required',
@@ -27,16 +28,25 @@ const EmployeeTypeForm = () =>
         const newEmployeeType = {...employeetype};
         const newErrorLog = {...errorLog};
 
-        const parameter = e.currentTarget.id as 'employeetypeid' | 'description' | 'situation';
+        const parameter = e.currentTarget.id as 
+            'employeetypeid' | 
+            'description' | 
+            'situation';
 
-        //check if id is taken
-        if((e.currentTarget.value === null || e.currentTarget.value === undefined || e.currentTarget.value === ''))
+        //make check if id is taken
+        //form validation
+        if
+        (
+            e.currentTarget.value === null || 
+            e.currentTarget.value === undefined || 
+            e.currentTarget.value === ''
+        ) //check if value is null
         {
             newErrorLog[parameter] = `${parameter} is required`
             setErrorlog(newErrorLog);
         }
-        else
-        {            
+        else //no invalid value
+        {       
             newErrorLog[parameter] = ''
             setErrorlog(newErrorLog);
         }
@@ -48,25 +58,24 @@ const EmployeeTypeForm = () =>
         else if(parameter === 'situation')
             newEmployeeType[parameter] = e.currentTarget.checked;
 
-
         setEmployeeType(newEmployeeType);
     }
 
     const validation = (e: React.MouseEvent) =>
     {
-        if(
+        e.preventDefault();
+
+        if
+        (
             errorLog.description !== '' || 
             errorLog.employeetypeid !== '' ||
             errorLog.situation !== ''
-        )
+        ) //check for form errors
         {
-            e.preventDefault();
-            
-            setShowError(true);
+            setShowLog(true);
 
             return;
         }
-        e.preventDefault();
 
         createEmployeeType();
     }    
@@ -91,15 +100,28 @@ const EmployeeTypeForm = () =>
                 <h3>Employee Type Registration</h3>
 
                 <hr/>
+
                 <label><p>ID:</p><input className="field" placeholder="0" type="number" onChange={(e)=>handleForm(e)} id="employeetypeid" defaultValue={employeetype.employeetypeid || undefined}/></label>
-                {(errorLog.employeetypeid !== '' && showError ) && <label><p>{errorLog.employeetypeid}</p></label>}
+                { // ID invalid value log
+                    ( errorLog.employeetypeid !== '' && showLog ) && 
+                    <label><p>{ errorLog.employeetypeid }</p></label>
+                }
+
                 <label><p>Descrição:</p><input placeholder="admin..." className="field" type="text" onChange={(e)=>handleForm(e)} id="description" defaultValue={employeetype.description}/></label>
-                {(errorLog.description !== '' && showError ) && <label><p>{errorLog.description}</p></label>}
+                { // Description invalid value log
+                    ( errorLog.description !== '' && showLog ) && 
+                    <label><p>{ errorLog.description }</p></label>
+                }
+
                 <label><p>Situação:</p><input defaultChecked className="check" type="checkbox" onChange={(e)=>handleForm(e)} id="situation" defaultValue={employeetype.situation.toString()}/></label>
 
                 <hr/>
 
-                <div className="buttons"><button type="submit" onClick={(e) => validation(e)}>Submit</button><button onClick={ () => navigate('/employeetype')}>Cancel</button></div>
+                <div className="buttons">
+                    <button onClick={ (e) => validation(e) } type="submit" >Submit</button>
+                    <button onClick={ () => navigate('/employeetype') } >Cancel</button>
+                </div>
+
             </form>
         </div>
     )
