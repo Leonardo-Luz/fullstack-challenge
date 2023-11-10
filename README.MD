@@ -37,9 +37,6 @@ Executa a aplicação em "watch mode", atualizando-a ao vivo para cada mudança 
 #### typescript
 Biblioteca do typescript
 
-#### @types/*
-Tipagem para typescript
-
 ### Framework
 #### Express
 
