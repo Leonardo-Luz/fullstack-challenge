@@ -16,7 +16,7 @@ const Employeetype = () =>
 
     const getEmployeeTypes = async (): Promise<void> =>
     {
-        await fetch(`http://10.0.0.239:3001/employeetype`)
+        await fetch(`http://localhost:3001/employeetype`)
         .then( ( res ) => 
         {
             res.json()
