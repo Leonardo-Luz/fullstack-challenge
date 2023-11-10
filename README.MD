@@ -1,6 +1,6 @@
 # Fullstack app
 
-<a href="https://app.swaggerhub.com/apis-docs/LEONARDOLUZ07/profissionais/1.0.0">API Doc</a>
+<a href="https://app.swaggerhub.com/apis-docs/LEONARDOLUZ07/profissionais/1.0.0" target="new">API Doc</a>
 
 ### db config
 ```
