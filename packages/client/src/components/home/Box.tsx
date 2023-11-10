@@ -1,6 +1,6 @@
 import './box.css'
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {Link} from 'react-router-dom'
 
 type BoxProps = {
@@ -15,7 +15,7 @@ const Box = ( { children, table }: BoxProps ) =>
 
     const getByLink = async () =>
     {
-        await fetch(`http://10.0.0.239:3001${table}/`)
+        await fetch(`http://localhost:3001${table}/`)
         .then((res) => res.json()
             .then((data) => {
             setCount(data.length);

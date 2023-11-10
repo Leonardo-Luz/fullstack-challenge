@@ -45,7 +45,7 @@ const EmployeeTypeRow = ( { employeeTypes , filtered }: EmployeeTypeRowProps) =>
             (`Are you sure you want to delete the employeetype with id ${id} and his employees ?`)
         )
         {
-            await fetch(`http://10.0.0.239:3001/employeetype/${id}`, {
+            await fetch(`http://localhost:3001/employeetype/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
@@ -94,11 +94,11 @@ const EmployeeTypeRow = ( { employeeTypes , filtered }: EmployeeTypeRowProps) =>
                             const row =
                             <tr>
                                 {/* criar td como objeto ts separado */}
-                                <td className="id" title={data.employeetypeid.toString()} onClick={(e)=> {navigator.clipboard.writeText(data.employeetypeid.toString()); console.log('data copied')}}>{data.employeetypeid}</td>
-                                <td className="desc" title={data.description.toString()} onClick={(e)=> {navigator.clipboard.writeText(data.description); console.log('data copied')}}>{data.description}</td>
-                                <td className="sit" title={((data.situation && "Ativo")||(!data.situation && "Desligado")) as string} onClick={(e)=> {navigator.clipboard.writeText(data.situation.toString()); console.log('data copied')}}>{(data.situation && "Ativo")||(!data.situation && "Desligado")}</td>
-                                <td className="del" title="Update" onClick={(e)=> {navigate(`/employeetypeupdate/${data.employeetypeid}`)}}><img className="ico" src={edit_ico} alt="Edit Icon" ></img></td>
-                                <td className="del" title="Delete" onClick={(e)=> {deleteEmployeeType(data.employeetypeid)}}><img className="ico" src={delete_ico} alt="Delete Icon" ></img></td>
+                                <td className="id" title={data.employeetypeid.toString()} onClick={()=> {navigator.clipboard.writeText(data.employeetypeid.toString()); console.log('data copied')}}>{data.employeetypeid}</td>
+                                <td className="desc" title={data.description.toString()} onClick={()=> {navigator.clipboard.writeText(data.description); console.log('data copied')}}>{data.description}</td>
+                                <td className="sit" title={((data.situation && "Ativo")||(!data.situation && "Desligado")) as string} onClick={()=> {navigator.clipboard.writeText(data.situation.toString()); console.log('data copied')}}>{(data.situation && "Ativo")||(!data.situation && "Desligado")}</td>
+                                <td className="del" title="Update" onClick={()=> {navigate(`/employeetypeupdate/${data.employeetypeid}`)}}><img className="ico" src={edit_ico} alt="Edit Icon" ></img></td>
+                                <td className="del" title="Delete" onClick={()=> {deleteEmployeeType(data.employeetypeid)}}><img className="ico" src={delete_ico} alt="Delete Icon" ></img></td>
                             </tr>
 
                             if(filtered === undefined) // without filter 
