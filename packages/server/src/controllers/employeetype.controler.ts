@@ -50,6 +50,11 @@ export const createEmployeeTypeHandler  = async ( req: Request<{}, any, employee
     {    
         const { employeetypeid , description , situation } = req.body;
 
+        const response = await getEmployeeTypeById(employeetypeid , employeetypeModel);
+
+        if(response !== null)
+            return res.status(409).json('Conflict');
+
         await createEmployeeType(employeetypeModel ,
         {
             employeetypeid,

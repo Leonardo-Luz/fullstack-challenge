@@ -51,6 +51,11 @@ export const createEmployeeHandler  = async ( req: Request<{}, any, employeeRequ
     {
         const body = req.body; 
 
+        const response = await getEmployeeById(body.employeeid , employeeModel);
+
+        if(response !== null)
+            return res.status(409).json('Conflict');
+
         await createEmployee( employeeModel ,
         {
             ...body
