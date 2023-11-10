@@ -1,8 +1,8 @@
 # Fullstack app
 
-<a href="https://app.swaggerhub.com/apis-docs/LEONARDOLUZ07/profissionais/1.0.0" _blank="_blank" >API Doc</a>
+<a href="https://app.swaggerhub.com/apis-docs/LEONARDOLUZ07/profissionais/1.0.0" _blank="_blank" >API Documentation with Swagger</a>
 
-### db config
+### db connect config
 ```
 POSTGRES_HOST= host
 POSTGRES_PORT= port
