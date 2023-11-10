@@ -1,7 +1,7 @@
 import '../styles/table.css';
 import '../styles/form.css';
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { employeeTypeProps } from "../types/employeetype";
@@ -22,11 +22,19 @@ const EmployeeTypeUpdate = ( ) =>
         updatedAt: null,
     } as employeeTypeProps
     
+    const [showLog , setShowLog] = useState<boolean>(false);
+
+    //form validation errors
+    const [errorLog, setErrorlog] = useState({
+        description: '',
+        situation: ''
+    })    
+
     const [employeetype , setEmployeeType] = useState(defaultEmployeeType);
 
     const getEmployeeTypebyId = async (): Promise<void> =>
     {
-        await fetch(`http://10.0.0.239:3001/employeetype/${id}`)
+        await fetch(`http://localhost:3001/employeetype/${id}`)
         .then((res) => { res.json()
             .then((data: employeeTypeProps) =>
             {
@@ -42,6 +50,7 @@ const EmployeeTypeUpdate = ( ) =>
     const handleForm = (e: React.FormEvent<HTMLInputElement>) =>
     {
         const newEmployeeType = {...employeetype};
+        const newErrorLog = {...errorLog};
 
         //form input target
         const parameter = e.currentTarget.id as 
@@ -54,15 +63,46 @@ const EmployeeTypeUpdate = ( ) =>
         else if(parameter === 'situation') //boolean
             newEmployeeType[parameter] = e.currentTarget.checked;
 
+        if
+        (
+            e.currentTarget.value === null || 
+            e.currentTarget.value === undefined || 
+            e.currentTarget.value === ''
+        ) //check if value is null
+        {
+            newErrorLog[parameter] = `${parameter} is required`
+            setErrorlog(newErrorLog);
+        }
+        else //no invalid value
+        {       
+            newErrorLog[parameter] = ''
+            setErrorlog(newErrorLog);
+        }
 
         setEmployeeType(newEmployeeType);
     }
 
-    const updateEmployeeType = async ( e: React.MouseEvent ) =>
+    const validation = (e: React.MouseEvent) =>
     {
         e.preventDefault();
 
-        await fetch(`http://10.0.0.239:3001/employeetype/${id}`, {
+        if
+        (
+            errorLog.description !== '' || 
+            errorLog.situation !== ''
+        ) //check for form errors
+        {
+            setShowLog(true);
+
+            return;
+        }
+
+        updateEmployeeType();
+    }   
+
+    const updateEmployeeType = async ( ) =>
+    {
+        await fetch(`http://localhost:3001/employeetype/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -82,17 +122,22 @@ const EmployeeTypeUpdate = ( ) =>
 
                     <hr/>
 
-                    <label><p>ID:</p><input className="field" placeholder="0" type="number" value={employeetype.employeetypeid}/></label>
+                    <label><p>ID:</p><input className="field" placeholder="0" type="number" id='id' value={employeetype.employeetypeid}/></label>
                     <label><p>Descrição:</p><input placeholder="admin..." className="field" type="text" onChange={(e)=>handleForm(e)} id="description" defaultValue={employeetype.description}/></label>
+                    { // Description invalid value log
+                    ( errorLog.description !== '' && showLog ) && 
+                    <label><p>{ errorLog.description }</p></label>
+                    }
+
                     <label><p>Situação:</p><input className="check" type="checkbox" onChange={(e)=>handleForm(e)} id="situation" checked={employeetype.situation}/></label>
 
-                    <label><p>Last Update:</p><input placeholder="admin..." className="field" type="text" value={employeetype.updatedAt?.toString()}/></label>
-                    <label><p>Created At:</p><input placeholder="admin..." className="field" type="text" value={employeetype.createdAt?.toString()}/></label>
+                    <label><p>Last Update:</p><input placeholder="admin..." className="field" type="text" id='createdat' value={employeetype.updatedAt?.toString()}/></label>
+                    <label><p>Created At:</p><input placeholder="admin..." className="field" type="text" id='updatedat' value={employeetype.createdAt?.toString()}/></label>
 
                     <hr/>
 
                     <div className="buttons">
-                        <button onClick={ (e) => updateEmployeeType(e) }>Update</button>
+                        <button onClick={ (e) => validation(e) }>Update</button>
                         <button onClick={ () => navigate('/employeetype') }>Cancel</button>
                     </div>
 
