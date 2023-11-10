@@ -12,10 +12,6 @@ export class App {
     {
         this.app = express();
 
-        // this.app.use(cors({
-        //     credentials: true,
-        // }));
-
         this.databaseSync();
 
         this.middlewares();
