@@ -11,9 +11,9 @@ import { employeeRequestBody } from "../types/employee";
 const app = new App().app;
 
 const employeePayLoad = { 
-    "employeeid": 123456,
+    "employeeid": -99,
     "name":"aaaaa",
-    "cellnum": "999",
+    "cellnum": "0",
     "email":"exemple@gmail.com",
     "employeetypeid":12,
     "situation":true,
@@ -21,9 +21,9 @@ const employeePayLoad = {
 
 
 const employeeInput = {
-    "employeeid": 123456,
+    "employeeid": -99,
     "name":"aaaaa",
-    "cellnum": "999",
+    "cellnum": "0",
     "email":"exemple@gmail.com",
     "employeetypeid":12,
     "situation":true,
@@ -40,7 +40,7 @@ describe("employee", () => {
     describe("get employee route--", () => {
         describe("given employee doesn't exist", () =>{
             it("should return status: 404", async() => { 
-                const employeeid = 123456;
+                const employeeid = -999;
                 
                 await supertest(app).get(`/employee/${employeeid}`)
                     .expect(404);
@@ -49,7 +49,7 @@ describe("employee", () => {
 
         describe("given employee does exist", () =>{
             it("should return status: 200 and employee", async() => {        
-                const employeeid = 12345;
+                const employeeid = 0;
 
                 const { body , statusCode} = await supertest(app).get(`/employee/${employeeid}`)
                 
@@ -104,7 +104,7 @@ describe("employee", () => {
                 .mockRejectedValueOnce("Oh no!");
 
                 const { statusCode } = await supertest(app)
-                    .put(`/employee/123456`)
+                    .put(`/employee/-999`)
                     .send(employeeInput);
                             
                 expect(statusCode).toBe(404);                
@@ -122,7 +122,7 @@ describe("employee", () => {
                 .mockRejectedValueOnce("Oh no!");
 
                 const { statusCode } = await supertest(app)
-                    .put(`/employee/12345`)
+                    .put(`/employee/0`)
                     .send(employeeInput);
                             
                 
@@ -141,7 +141,7 @@ describe("employee", () => {
                 .mockReturnValueOnce(employeePayLoad);
 
                 const { statusCode } = await supertest(app)
-                    .put(`/employee/224`)
+                    .put(`/employee/0`)
                     .send({
                         cellnum: "999333",
                         name: "teste"
@@ -164,7 +164,7 @@ describe("employee", () => {
                     .mockReturnValueOnce();
 
                 const { statusCode } = await supertest(app)
-                    .delete(`/employee/-9999`)
+                    .delete(`/employee/-999`)
                             
                 expect(statusCode).toBe(404);
 
@@ -181,7 +181,7 @@ describe("employee", () => {
                     .mockReturnValueOnce();
 
                 const { statusCode } = await supertest(app)
-                    .delete(`/employee/22`)
+                    .delete(`/employee/0`)
                             
                 expect(statusCode).toBe(200);                
 
