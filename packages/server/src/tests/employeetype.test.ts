@@ -11,14 +11,14 @@ import { employeeTypeRequestBody } from "../types/employeetype";
 const app = new App().app;
 
 const employeetypePayLoad = { 
-    employeetypeid: 123,
+    employeetypeid: -99,
     description: "Admin",
     situation: true,
 } as employeetypeI
 
 
 const employeetypeInput = {
-    employeetypeid: 123,
+    employeetypeid: -99,
     description: "Admin",
     situation: true,
 } as employeeTypeRequestBody
@@ -43,7 +43,7 @@ describe("employeetype", () => {
 
         describe("given employeetype does exist", () =>{
             it("should return status: 200 and employeetype", async() => {        
-                const employeetypeid = 55;
+                const employeetypeid = 0;
 
                 const { body , statusCode} = await supertest(app).get(`/employeetype/${employeetypeid}`)
                 
@@ -116,7 +116,7 @@ describe("employeetype", () => {
                 .mockRejectedValueOnce("Oh no!");
 
                 const { statusCode } = await supertest(app)
-                    .put(`/employeetype/55`)
+                    .put(`/employeetype/0`)
                     .send(employeetypeInput);
                             
                 
@@ -135,7 +135,7 @@ describe("employeetype", () => {
                 .mockReturnValueOnce(employeetypePayLoad);
 
                 const { statusCode } = await supertest(app)
-                    .put(`/employeetype/55`)
+                    .put(`/employeetype/0`)
                     .send({
                         description: "ADMIN",
                         situation: false
@@ -175,7 +175,7 @@ describe("employeetype", () => {
                     .mockReturnValueOnce();
 
                 const { statusCode } = await supertest(app)
-                    .delete(`/employeetype/55`)
+                    .delete(`/employeetype/0`)
                             
                 expect(statusCode).toBe(200);                
 
