@@ -82,15 +82,26 @@ const EmployeeTypeForm = () =>
 
     const createEmployeeType = async () =>
     {
-        await fetch('http://10.0.0.239:3001/employeetype', {
+        await fetch('http://localhost:3001/employeetype', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(employeetype)            
+        }).then( (res) => {
+            if(res.status === 409)
+            {
+                setErrorlog({
+                    ...errorLog,
+                    employeetypeid: 'employeetypeid is alredy taken'
+                });
+
+                setShowLog(true);
+            }
+            else            
+                navigate('/employeetype');
         })
 
-        navigate('/employeetype');
     }
 
     return(
