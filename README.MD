@@ -1,3 +1,15 @@
+# Fullstack app
+
+<a href="https://app.swaggerhub.com/apis-docs/LEONARDOLUZ07/profissionais/1.0.0">API Doc</a>
+
+### db config
+```
+POSTGRES_HOST= host
+POSTGRES_PORT= port
+POSTGRES_USER= user
+POSTGRES_PASSWORD= password
+POSTGRES_DB= db_name
+```
 
 # Backend
 
@@ -27,8 +39,7 @@ Biblioteca do typescript
 Tipagem para typescript
 
 ## Framework
-### Express // Mudar para NextJS
-    create rest api 
+### Express
 
 # Frontend
 
@@ -40,15 +51,11 @@ Tipagem para typescript
 ### react-router-dom
 Criação de rotas com react
 
-### react-scripts
-Execução de scripts com react
+### vite
+Build e desenvolvimento da aplicação
 
 ### typescript
 
 ### file-loader
 Usado para import de imagens para arquivos typescript
 
-### @types/*
-
-credits
-<a href="https://www.flaticon.com/free-icons/trash" title="trash icons">Trash icons created by Freepik - Flaticon</a>
