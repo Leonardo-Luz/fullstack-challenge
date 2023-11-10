@@ -17,10 +17,10 @@ POSTGRES_DB= db_name
 
 ### Library
 #### Jest e supertest
-Usados para testagem de api
+testagem de api
 
 #### sequelize
-Criação de modelos, conectar no database e metodos http.
+Criação de modelos, conectar no database e metodos de query.
 
 #### dotenv
 Separar variaveis expecificas do código
@@ -44,6 +44,7 @@ Biblioteca do typescript
 
 ### Library
 #### react
+Biblioteca do react
 
 #### react-dom
 
@@ -51,9 +52,10 @@ Biblioteca do typescript
 Criação de rotas com react
 
 #### vite
-Build e desenvolvimento da aplicação
+Build e execução da aplicação
 
 #### typescript
+Biblioteca do typescript
 
 #### file-loader
 Usado para import de imagens para arquivos typescript
