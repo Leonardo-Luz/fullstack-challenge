@@ -1,6 +1,6 @@
 # Fullstack app
 
-<a href="https://app.swaggerhub.com/apis-docs/LEONARDOLUZ07/profissionais/1.0.0" target="new">API Doc</a>
+<a href="https://app.swaggerhub.com/apis-docs/LEONARDOLUZ07/profissionais/1.0.0" _blank="_blank" >API Doc</a>
 
 ### db config
 ```
@@ -11,51 +11,53 @@ POSTGRES_PASSWORD= password
 POSTGRES_DB= db_name
 ```
 
-# Backend
+# Dependences
 
-## Library
-### Jest e supertest
+## Backend
+
+### Library
+#### Jest e supertest
 Usados para testagem de api
 
-### sequelize
+#### sequelize
 Criação de modelos, conectar no database e metodos http.
 
-### dotenv
+#### dotenv
 Separar variaveis expecificas do código
 
-### pg
+#### pg
 Biblioteca do postgres
 
-### ts-node
+#### ts-node
 Executa a aplicação em ts ao invez de buildar para js e então executar, acelerando o processo de testagem
 
-### nodemon
+#### nodemon
 Executa a aplicação em "watch mode", atualizando-a ao vivo para cada mudança salva
 
-### typescript
+#### typescript
 Biblioteca do typescript
 
-### @types/*
+#### @types/*
 Tipagem para typescript
 
-## Framework
-### Express
+### Framework
+#### Express
 
-# Frontend
+## Frontend
 
-## Library
-### react
+### Library
+#### react
 
-### react-dom
+#### react-dom
 
-### react-router-dom
+#### react-router-dom
 Criação de rotas com react
 
-### vite
+#### vite
 Build e desenvolvimento da aplicação
 
-### typescript
+#### typescript
 
-### file-loader
+#### file-loader
 Usado para import de imagens para arquivos typescript
 
